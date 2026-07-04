@@ -8,8 +8,6 @@ import AnalyticsRouteTracker from './components/AnalyticsRouteTracker'
 
 import AppLayout from './components/AppLayout'
 
-import LandingPage from './pages/LandingPage'
-
 import Login from './pages/Login'
 
 import Home from './pages/Home'
@@ -51,7 +49,7 @@ function GuestAllowedRoute({ children }) {
 
   if (!user) {
     const from = `${location.pathname}${location.search}`
-    return <Navigate to="/login" replace state={{ from: from === '/login' ? '/browse' : from }} />
+    return <Navigate to="/" replace state={{ from: from === '/' || from === '/login' ? '/browse' : from }} />
   }
 
   return children
@@ -81,7 +79,7 @@ function AuthRequiredRoute({ children }) {
 
   if (!isAuthenticated) {
     const from = `${location.pathname}${location.search}`
-    return <Navigate to="/login" replace state={{ from }} />
+    return <Navigate to="/" replace state={{ from }} />
   }
 
   return children
@@ -106,9 +104,10 @@ export default function App() {
 
     <Routes>
 
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/" element={<Login />} />
 
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={<Navigate to="/" replace />} />
+
       <Route path="/terms" element={<LegalPage type="terms" />} />
       <Route path="/privacy" element={<LegalPage type="privacy" />} />
 

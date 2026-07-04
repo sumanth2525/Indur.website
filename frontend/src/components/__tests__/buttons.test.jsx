@@ -3,8 +3,6 @@ import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import PurposeToggle from '../PurposeToggle'
 import LanguageToggle from '../LanguageToggle'
-import LandingHeader from '../landing/LandingHeader'
-import HeroSection from '../landing/HeroSection'
 import LocationPicker from '../LocationPicker'
 import PropertyListItem from '../PropertyListItem'
 import Support from '../../pages/Support'
@@ -101,79 +99,6 @@ describe('Button interactions', () => {
 
       await user.click(button)
       expect(button).toHaveTextContent('తెలుగు')
-    })
-  })
-
-  describe('LandingHeader', () => {
-    it('fires onTabChange for desktop nav tabs', async () => {
-      const user = userEvent.setup()
-      const onTabChange = vi.fn()
-
-      renderWithProviders(
-        <LandingHeader activeTab="buy" onTabChange={onTabChange} city="Nizamabad" />,
-      )
-
-      const rentButtons = screen.getAllByRole('button', { name: 'Rent' })
-      await user.click(rentButtons[0])
-      expect(onTabChange).toHaveBeenCalledWith('rent')
-    })
-
-    it('opens city dropdown and selects a city', async () => {
-      const user = userEvent.setup()
-      const onCityChange = vi.fn()
-
-      renderWithProviders(
-        <LandingHeader activeTab="buy" city="Nizamabad" onCityChange={onCityChange} />,
-      )
-
-      await user.click(screen.getByRole('button', { name: /nizamabad/i }))
-      await user.click(screen.getByRole('button', { name: 'Armoor' }))
-      expect(onCityChange).toHaveBeenCalledWith('Armoor')
-    })
-
-    it('toggles mobile menu and selects a tab', async () => {
-      const user = userEvent.setup()
-      const onTabChange = vi.fn()
-
-      renderWithProviders(
-        <LandingHeader activeTab="buy" onTabChange={onTabChange} city="Nizamabad" />,
-      )
-
-      await user.click(screen.getByRole('button', { name: 'Menu' }))
-      const sellButtons = screen.getAllByRole('button', { name: 'Sell' })
-      await user.click(sellButtons[sellButtons.length - 1])
-      expect(onTabChange).toHaveBeenCalledWith('sell')
-    })
-  })
-
-  describe('HeroSection', () => {
-    it('changes intent when buy/rent/pg tabs are clicked', async () => {
-      const user = userEvent.setup()
-      const onIntentChange = vi.fn()
-
-      renderWithProviders(
-        <HeroSection city="Nizamabad" intent="buy" onIntentChange={onIntentChange} />,
-      )
-
-      await user.click(screen.getByRole('button', { name: 'rent' }))
-      expect(onIntentChange).toHaveBeenCalledWith('rent')
-
-      await user.click(screen.getByRole('button', { name: 'PG' }))
-      expect(onIntentChange).toHaveBeenCalledWith('pg')
-    })
-
-    it('navigates to login when Search Properties is clicked', async () => {
-      const user = userEvent.setup()
-
-      renderWithProviders(
-        <HeroSection city="Armoor" intent="buy" onIntentChange={vi.fn()} />,
-      )
-
-      await user.click(screen.getByRole('button', { name: /search properties/i }))
-      expect(mockNavigate).toHaveBeenCalledWith(
-        '/login',
-        expect.objectContaining({ state: expect.objectContaining({ from: '/browse' }) }),
-      )
     })
   })
 
