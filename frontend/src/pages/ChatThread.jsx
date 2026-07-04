@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, Send } from 'lucide-react'
+import Icon from '../components/Icon'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useAuth } from '../context/AuthContext'
 import { storage } from '../services/storage'
@@ -42,7 +42,7 @@ export default function ChatThread() {
     <div className="flex flex-col h-[calc(100dvh-56px)] lg:h-[calc(100dvh-120px)] lg:max-w-2xl lg:mx-auto lg:border lg:border-border lg:rounded-2xl lg:overflow-hidden lg:bg-white">
       <div className="flex items-center gap-3 border-b border-border px-4 py-3 bg-white">
         <button type="button" onClick={() => navigate('/messages')} className="rounded-full p-1">
-          <ArrowLeft size={22} />
+          <Icon name="arrow_back" size={22} />
         </button>
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal text-white font-semibold shrink-0">
           {other?.name?.charAt(0)}
@@ -87,7 +87,7 @@ export default function ChatThread() {
           onClick={handleSend}
           className="flex h-10 w-10 items-center justify-center rounded-full bg-teal text-white shrink-0"
         >
-          <Send size={18} />
+          <Icon name="send" size={18} />
         </button>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, ChevronDown } from 'lucide-react'
+import Icon from '../components/Icon'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useAuth } from '../context/AuthContext'
 import { createTicket } from '../data/seed'
@@ -35,7 +35,7 @@ export default function Support() {
     <div className="px-4 lg:max-w-2xl lg:mx-auto lg:px-0">
       <div className="flex items-center gap-3 mb-6 pt-2">
         <button type="button" onClick={() => navigate(-1)} className="rounded-full p-1 hover:bg-surface lg:hidden">
-          <ArrowLeft size={22} />
+          <Icon name="arrow_back" size={22} />
         </button>
         <h1 className="text-xl lg:text-2xl font-bold">{t('helpTitle')}</h1>
       </div>
@@ -56,7 +56,8 @@ export default function Support() {
               className="flex w-full items-center justify-between px-4 py-4 text-left"
             >
               <span className="text-sm font-medium pr-4">{t(faq.q)}</span>
-              <ChevronDown
+              <Icon
+                name="expand_more"
                 size={18}
                 className={`text-muted shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`}
               />

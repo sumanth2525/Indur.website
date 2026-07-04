@@ -6,6 +6,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<LocalDataStore>();
+builder.Services.AddHttpClient();
+builder.Services.AddSingleton<ApifyImportService>();
 
 builder.Services.AddCors(options =>
 {

@@ -1,21 +1,16 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, Camera } from 'lucide-react'
+import Icon from '../components/Icon'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useAuth } from '../context/AuthContext'
 import { createProperty } from '../data/seed'
+import { POST_AD_PLACEHOLDERS, imagesForBedrooms } from '../data/mockImages'
 import { LOCATIONS } from '../i18n/translations'
 
 const STEPS = ['category', 'details', 'photos', 'priceLocation']
-const CATEGORIES = ['house', 'land', 'apartment']
-
-const PLACEHOLDER_IMAGES = [
-  'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&q=80',
-  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=80',
-]
+const CATEGORIES = ['house', 'land', 'agriculture', 'apartment']
 
 export default function PostAd() {
-  const { t } = useLanguage()
   const { user } = useAuth()
   const navigate = useNavigate()
   const [step, setStep] = useState(0)
@@ -32,12 +27,15 @@ export default function PostAd() {
   const update = (field, value) => setForm((f) => ({ ...f, [field]: value }))
 
   const handleAddPhoto = () => {
-    const next = PLACEHOLDER_IMAGES[form.images.length % PLACEHOLDER_IMAGES.length]
+    const next = POST_AD_PLACEHOLDERS[form.images.length % POST_AD_PLACEHOLDERS.length]
     update('images', [...form.images, next])
   }
 
   const handleSubmit = () => {
     if (!form.title || !form.price || !form.area) return
+    const isPlot = form.type === 'land' || form.type === 'agriculture'
+    const bedrooms = form.type === 'house' ? 2 : form.type === 'apartment' ? 2 : 0
+    const mockImages = imagesForBedrooms(bedrooms, form.type)
     createProperty(
       {
         type: form.type,
@@ -46,11 +44,12 @@ export default function PostAd() {
         description: form.description,
         price: Number(form.price),
         location: { area: form.area, city: 'Nizamabad', lat: 18.6725, lng: 78.0941 },
-        images: form.images.length ? form.images : [PLACEHOLDER_IMAGES[0]],
-        sqft: form.type === 'land' ? 2400 : 1200,
-        bedrooms: form.type === 'house' ? 2 : form.type === 'apartment' ? 3 : 0,
+        images: form.images.length ? form.images : [mockImages[0]],
+        sqft: form.type === 'land' ? 2400 : isPlot ? 0 : bedrooms === 1 ? 650 : bedrooms === 2 ? 1200 : 1650,
+        acres: form.type === 'agriculture' ? 2 : undefined,
+        bedrooms: isPlot ? 0 : bedrooms,
         facing: 'East',
-        readyToMove: form.type !== 'land',
+        readyToMove: !isPlot,
       },
       user.id,
     )
@@ -70,7 +69,7 @@ export default function PostAd() {
     <div className="px-4 lg:max-w-2xl lg:mx-auto lg:px-0">
       <div className="flex items-center gap-3 mb-6 pt-2">
         <button type="button" onClick={() => navigate(-1)} className="rounded-full p-1 hover:bg-surface">
-          <ArrowLeft size={22} />
+          <Icon name="arrow_back" size={22} />
         </button>
         <h1 className="text-xl font-bold">{t('postProperty')}</h1>
       </div>
@@ -158,7 +157,7 @@ export default function PostAd() {
                     onClick={handleAddPhoto}
                     className="flex aspect-square flex-col items-center justify-center rounded-xl border-2 border-dashed border-border text-muted hover:border-teal hover:text-teal transition-colors"
                   >
-                    <Camera size={28} />
+                    <Icon name="photo_camera" size={28} />
                     <span className="text-xs mt-2">{t('uploadPhotos')}</span>
                   </button>
                 )}

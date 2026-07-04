@@ -1,9 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { ChevronRight } from 'lucide-react'
+import Icon from '../components/Icon'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useAuth } from '../context/AuthContext'
 import { storage } from '../services/storage'
-import MobileQrCard from '../components/MobileQrCard'
+import ShareAppCard from '../components/ShareAppCard'
 
 const menuItems = [
   { key: 'editProfile', path: '/profile/edit' },
@@ -28,14 +28,14 @@ export default function Profile() {
   }
 
   return (
-    <div className="px-4 lg:px-0">
-      <p className="text-xs text-muted tracking-widest pt-2">{t('yourAccount')}</p>
-      <h1 className="text-2xl lg:text-3xl font-bold">{t('profile')}</h1>
+    <div className="px-5 lg:px-0">
+      <p className="text-[11px] font-medium tracking-[0.12em] text-muted-light uppercase pt-2 lg:pt-0">{t('yourAccount')}</p>
+      <h1 className="text-[2rem] lg:text-3xl font-bold tracking-tight mt-1">{t('profile')}</h1>
 
       <div className="lg:grid lg:grid-cols-3 lg:gap-8 lg:mt-8">
         <div className="lg:col-span-1">
           <div className="flex flex-col items-center py-8 lg:py-0 lg:items-start">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-teal text-white text-3xl font-bold">
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-text text-white text-3xl font-bold">
               {user?.name?.charAt(0) || 'U'}
             </div>
             <p className="font-bold text-lg mt-3">{user?.name}</p>
@@ -57,7 +57,7 @@ export default function Profile() {
             </div>
           </div>
 
-          <MobileQrCard />
+          <ShareAppCard />
         </div>
 
         <div className="lg:col-span-2">
@@ -72,7 +72,7 @@ export default function Profile() {
                 }`}
               >
                 <span className="text-sm font-medium">{t(item.key)}</span>
-                <ChevronRight size={18} className="text-muted" />
+                <Icon name="chevron_right" size={18} className="text-muted" />
               </Link>
             ))}
           </div>

@@ -1,39 +1,57 @@
 import { NavLink } from 'react-router-dom'
-import { Home, MessageCircle, User, LayoutDashboard, PlusCircle, HelpCircle } from 'lucide-react'
+import Icon from '../Icon'
 import { useLanguage } from '../../i18n/LanguageContext'
 
-const navItems = [
-  { to: '/', icon: Home, labelKey: 'home', end: true },
-  { to: '/messages', icon: MessageCircle, labelKey: 'messages' },
-  { to: '/profile', icon: User, labelKey: 'profile' },
+const mobileItems = [
+  { to: '/', icon: 'home', labelKey: 'home', end: true },
+  { to: '/profile/saved', icon: 'bookmark', labelKey: 'saved' },
+  { to: '/profile', icon: 'person', labelKey: 'profile', end: true },
 ]
 
 const desktopItems = [
-  { to: '/', icon: LayoutDashboard, labelKey: 'dashboard', end: true },
-  { to: '/messages', icon: MessageCircle, labelKey: 'messages' },
-  { to: '/post', icon: PlusCircle, labelKey: 'postProperty' },
-  { to: '/profile', icon: User, labelKey: 'profile' },
-  { to: '/support', icon: HelpCircle, labelKey: 'helpSupport' },
+  { to: '/', icon: 'dashboard', labelKey: 'dashboard', end: true },
+  { to: '/profile/saved', icon: 'bookmark', labelKey: 'saved' },
+  { to: '/messages', icon: 'chat', labelKey: 'messages' },
+  { to: '/post', icon: 'add_circle', labelKey: 'postProperty' },
+  { to: '/profile', icon: 'person', labelKey: 'profile' },
+  { to: '/support', icon: 'help', labelKey: 'helpSupport' },
 ]
 
-function NavItem({ to, icon: Icon, labelKey, end, t, mobile }) {
+function MobileNavItem({ to, icon, labelKey, end, t }) {
   return (
     <NavLink
       to={to}
       end={end}
       className={({ isActive }) =>
-        mobile
-          ? `flex flex-col items-center gap-0.5 py-1 px-4 text-xs font-medium transition-colors ${
-              isActive ? 'text-teal' : 'text-muted'
-            }`
-          : `flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
-              isActive
-                ? 'bg-teal text-white'
-                : 'text-muted hover:bg-teal-light hover:text-teal'
-            }`
+        `flex flex-col items-center gap-1 py-1 px-6 text-[11px] font-medium transition-colors ${
+          isActive ? 'text-text' : 'text-muted-light'
+        }`
       }
     >
-      <Icon size={mobile ? 22 : 20} />
+      {({ isActive }) => (
+        <>
+          <Icon name={icon} size={22} filled={isActive} />
+          <span className={isActive ? 'font-semibold' : ''}>{t(labelKey)}</span>
+        </>
+      )}
+    </NavLink>
+  )
+}
+
+function DesktopNavItem({ to, icon, labelKey, end, t }) {
+  return (
+    <NavLink
+      to={to}
+      end={end}
+      className={({ isActive }) =>
+        `flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
+          isActive
+            ? 'bg-text text-white'
+            : 'text-muted hover:bg-surface hover:text-text'
+        }`
+      }
+    >
+      <Icon name={icon} size={20} />
       <span>{t(labelKey)}</span>
     </NavLink>
   )
@@ -42,10 +60,10 @@ function NavItem({ to, icon: Icon, labelKey, end, t, mobile }) {
 export function BottomNav() {
   const { t } = useLanguage()
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-white px-2 pb-[env(safe-area-inset-bottom)] lg:hidden">
-      <div className="flex items-center justify-around py-2">
-        {navItems.map((item) => (
-          <NavItem key={item.to} {...item} t={t} mobile />
+    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-white pb-[env(safe-area-inset-bottom)] lg:hidden">
+      <div className="flex items-center justify-around py-2.5">
+        {mobileItems.map((item) => (
+          <MobileNavItem key={item.to} {...item} t={t} />
         ))}
       </div>
     </nav>
@@ -55,16 +73,13 @@ export function BottomNav() {
 export function Sidebar() {
   const { t } = useLanguage()
   return (
-    <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:shrink-0 lg:border-r lg:border-border lg:bg-white lg:p-4">
-      <div className="mb-8 px-2">
-        <div className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal text-white text-lg">🏠</div>
-          <span className="font-bold tracking-wide text-sm">{t('appName')}</span>
-        </div>
+    <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:shrink-0 lg:border-r lg:border-border lg:bg-white lg:p-5">
+      <div className="mb-10 px-2">
+        <span className="font-bold tracking-[0.08em] text-sm">{t('appName')}</span>
       </div>
       <nav className="flex flex-col gap-1">
         {desktopItems.map((item) => (
-          <NavItem key={item.to} {...item} t={t} mobile={false} />
+          <DesktopNavItem key={item.to} {...item} t={t} />
         ))}
       </nav>
     </aside>

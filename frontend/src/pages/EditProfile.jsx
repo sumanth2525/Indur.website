@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft } from 'lucide-react'
+import Icon from '../components/Icon'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useAuth } from '../context/AuthContext'
 import { updateUser } from '../data/seed'
@@ -30,7 +30,7 @@ export default function EditProfile() {
     <div className="px-4 lg:max-w-lg lg:mx-auto lg:px-0">
       <div className="flex items-center gap-3 mb-6 pt-2">
         <button type="button" onClick={() => navigate(-1)} className="rounded-full p-1">
-          <ArrowLeft size={22} />
+          <Icon name="arrow_back" size={22} />
         </button>
         <h1 className="text-xl font-bold">{t('editProfile')}</h1>
       </div>

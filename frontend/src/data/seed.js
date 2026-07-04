@@ -1,4 +1,7 @@
 import { storage, generateId } from '../services/storage'
+import { MOCK_IMAGES } from './mockImages'
+
+const SEED_VERSION = '4'
 
 const DEMO_USERS = [
   {
@@ -33,10 +36,7 @@ const DEMO_PROPERTIES = [
       'Spacious 2BHK independent house with east-facing entrance, modular kitchen, and covered parking. Located in a peaceful residential area near schools and markets.',
     price: 6800000,
     location: { area: 'Kanteshwar', city: 'Nizamabad', lat: 18.6725, lng: 78.0941 },
-    images: [
-      'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80',
-      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80',
-    ],
+    images: MOCK_IMAGES.bhk2.slice(0, 3),
     sellerId: 'user-ravi',
     status: 'active',
     sqft: 1200,
@@ -55,7 +55,7 @@ const DEMO_PROPERTIES = [
       'Clear-title residential plot ideal for building your dream home. 40×60 ft dimensions with road access and all approvals in place.',
     price: 4500000,
     location: { area: 'Armoor Road', city: 'Nizamabad', lat: 18.685, lng: 78.11 },
-    images: ['https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80'],
+    images: MOCK_IMAGES.land,
     sellerId: 'user-priya',
     status: 'active',
     sqft: 2400,
@@ -74,10 +74,7 @@ const DEMO_PROPERTIES = [
       'Modern 3BHK apartment in a gated community with 24/7 security, lift, and power backup. Close to Nizamabad city center.',
     price: 9200000,
     location: { area: 'Bodhan Road', city: 'Nizamabad', lat: 18.66, lng: 78.08 },
-    images: [
-      'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80',
-      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80',
-    ],
+    images: MOCK_IMAGES.bhk3.slice(0, 3),
     sellerId: 'user-ravi',
     status: 'active',
     sqft: 1850,
@@ -89,22 +86,100 @@ const DEMO_PROPERTIES = [
   },
   {
     id: 'prop-4',
-    type: 'house',
+    type: 'apartment',
     purpose: 'sell',
-    title: '4BHK Villa, Dichpally',
+    title: '3BHK Premium Flat, Dichpally',
     description:
-      'Luxury villa with garden, servant quarters, and premium finishes. Perfect for families seeking space and privacy.',
-    price: 15500000,
+      'Premium 3BHK with wide balcony, pooja room, and covered car parking. Gated community with children\'s play area.',
+    price: 8500000,
     location: { area: 'Dichpally', city: 'Nizamabad', lat: 18.71, lng: 78.12 },
-    images: ['https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80'],
+    images: [MOCK_IMAGES.bhk3[2], MOCK_IMAGES.bhk3[3], MOCK_IMAGES.bhk3[0]],
     sellerId: 'user-priya',
     status: 'active',
-    sqft: 3200,
-    bedrooms: 4,
+    sqft: 1650,
+    bedrooms: 3,
     facing: 'East',
     readyToMove: true,
     views: 112,
     createdAt: '2026-02-10T09:00:00Z',
+  },
+  {
+    id: 'prop-5',
+    type: 'apartment',
+    purpose: 'rent',
+    title: '2BHK Furnished Apartment, Nizamabad Town',
+    description:
+      'Fully furnished 2BHK near bus stand with Wi-Fi, AC in both bedrooms, and covered parking. Ideal for working professionals.',
+    price: 18000,
+    location: { area: 'Nizamabad Town', city: 'Nizamabad', lat: 18.67, lng: 78.09 },
+    images: [MOCK_IMAGES.bhk2[1], MOCK_IMAGES.bhk2[2]],
+    sellerId: 'user-ravi',
+    status: 'active',
+    sqft: 1100,
+    bedrooms: 2,
+    facing: 'South',
+    readyToMove: true,
+    views: 41,
+    createdAt: '2026-03-12T11:00:00Z',
+  },
+  {
+    id: 'prop-6',
+    type: 'apartment',
+    purpose: 'sell',
+    title: '1BHK Starter Flat, Jakranpally',
+    description:
+      'Affordable 1BHK flat ideal for singles or young couples. Ready to move with 24/7 water and near main road connectivity.',
+    price: 3200000,
+    location: { area: 'Jakranpally', city: 'Nizamabad', lat: 18.68, lng: 78.10 },
+    images: MOCK_IMAGES.bhk1,
+    sellerId: 'user-priya',
+    status: 'active',
+    sqft: 650,
+    bedrooms: 1,
+    facing: 'North',
+    readyToMove: true,
+    views: 28,
+    createdAt: '2026-03-15T09:00:00Z',
+  },
+  {
+    id: 'prop-7',
+    type: 'agriculture',
+    purpose: 'sell',
+    title: 'Agriculture Land, 2 Acres — Bodhan',
+    description:
+      'Fertile red-soil agriculture land suitable for paddy, cotton, and vegetables. Borewell with motor, road-facing, clear title. Near Bodhan market yard.',
+    price: 2400000,
+    location: { area: 'Bodhan', city: 'Nizamabad', lat: 18.66, lng: 77.89 },
+    images: MOCK_IMAGES.agriculture.slice(0, 2),
+    sellerId: 'user-ravi',
+    status: 'active',
+    sqft: 0,
+    acres: 2,
+    bedrooms: 0,
+    facing: 'East',
+    readyToMove: false,
+    views: 45,
+    createdAt: '2026-03-08T07:00:00Z',
+  },
+  {
+    id: 'prop-8',
+    type: 'agriculture',
+    purpose: 'sell',
+    title: 'Farm Land, 3.5 Acres — Kamareddy Road',
+    description:
+      'Level agriculture plot with existing mango plantation. Drip irrigation setup, compound wall on two sides. Ideal for farming or farmhouse development.',
+    price: 4200000,
+    location: { area: 'Kamareddy Road', city: 'Nizamabad', lat: 18.70, lng: 78.05 },
+    images: MOCK_IMAGES.agriculture.slice(1, 3),
+    sellerId: 'user-priya',
+    status: 'active',
+    sqft: 0,
+    acres: 3.5,
+    bedrooms: 0,
+    facing: 'North',
+    readyToMove: false,
+    views: 62,
+    createdAt: '2026-02-28T12:00:00Z',
   },
 ]
 
@@ -122,11 +197,36 @@ const DEMO_CONVERSATIONS = [
   },
 ]
 
+const DEMO_IDS = new Set(DEMO_PROPERTIES.map((p) => p.id))
+
+function mergeDemoProperties(existing) {
+  const byId = new Map(existing.map((p) => [p.id, p]))
+  for (const demo of DEMO_PROPERTIES) {
+    if (byId.has(demo.id)) {
+      byId.set(demo.id, { ...byId.get(demo.id), ...demo })
+    } else {
+      byId.set(demo.id, demo)
+    }
+  }
+  const userCreated = existing.filter((p) => !DEMO_IDS.has(p.id))
+  return [...DEMO_PROPERTIES.map((d) => byId.get(d.id)), ...userCreated]
+}
+
 export function seedIfEmpty() {
-  if (storage.getProperties().length === 0) {
+  const storedVersion = localStorage.getItem('nizam_seed_version')
+  const hasData = storage.getProperties().length > 0
+
+  if (!hasData) {
     storage.saveUsers(DEMO_USERS)
     storage.saveProperties(DEMO_PROPERTIES)
     storage.saveConversations(DEMO_CONVERSATIONS)
+    localStorage.setItem('nizam_seed_version', SEED_VERSION)
+    return
+  }
+
+  if (storedVersion !== SEED_VERSION) {
+    storage.saveProperties(mergeDemoProperties(storage.getProperties()))
+    localStorage.setItem('nizam_seed_version', SEED_VERSION)
   }
 }
 
@@ -208,6 +308,11 @@ export function toggleSaved(userId, propertyId) {
   return !isSaved
 }
 
+export function getPropertySaveCount(propertyId) {
+  const users = storage.getUsers()
+  return users.reduce((count, u) => count + (u.saved?.includes(propertyId) ? 1 : 0), 0)
+}
+
 export function getOrCreateConversation(buyerId, sellerId, propertyId) {
   const convs = storage.getConversations()
   let conv = convs.find(
@@ -258,4 +363,5 @@ export const TYPE_COLORS = {
   house: 'bg-emerald-100 text-emerald-700',
   land: 'bg-orange-100 text-orange-700',
   apartment: 'bg-blue-100 text-blue-700',
+  agriculture: 'bg-lime-100 text-lime-800',
 }

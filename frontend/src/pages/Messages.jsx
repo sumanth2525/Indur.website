@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { Search } from 'lucide-react'
+import Icon from '../components/Icon'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useAuth } from '../context/AuthContext'
 import { storage, formatTime } from '../services/storage'
@@ -31,7 +31,7 @@ export default function Messages() {
       <h1 className="text-2xl lg:text-3xl font-bold pt-2 mb-4">{t('messages')}</h1>
 
       <div className="relative mb-6">
-        <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" />
+        <Icon name="search" size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" />
         <input
           type="text"
           placeholder={t('searchConversations')}

@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
-import { Heart, MapPin } from 'lucide-react'
+import Icon from './Icon'
 import { useLanguage } from '../i18n/LanguageContext'
 import { formatPrice } from '../services/storage'
 import { TYPE_COLORS } from '../data/seed'
+import { DEFAULT_PROPERTY_IMAGE } from '../data/mockImages'
 
 export default function PropertyCard({ property, isSaved, onToggleSave, layout = 'list' }) {
   const { t } = useLanguage()
@@ -16,7 +17,7 @@ export default function PropertyCard({ property, isSaved, onToggleSave, layout =
       >
         <div className="relative aspect-[4/3] overflow-hidden">
           <img
-            src={property.images?.[0] || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400'}
+            src={property.images?.[0] || DEFAULT_PROPERTY_IMAGE}
             alt={property.title}
             className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
@@ -29,7 +30,7 @@ export default function PropertyCard({ property, isSaved, onToggleSave, layout =
               onClick={(e) => { e.preventDefault(); onToggleSave(property.id) }}
               className="absolute top-3 right-3 rounded-full bg-white/90 p-1.5 shadow-sm hover:bg-white"
             >
-              <Heart size={18} className={isSaved ? 'fill-red-500 text-red-500' : 'text-muted'} />
+              <Icon name="favorite" size={18} filled={isSaved} className={isSaved ? 'text-red-500' : 'text-muted'} />
             </button>
           )}
         </div>
@@ -37,7 +38,7 @@ export default function PropertyCard({ property, isSaved, onToggleSave, layout =
           <p className="font-bold text-lg">{formatPrice(property.price)}</p>
           <p className="font-medium text-sm mt-0.5 line-clamp-1">{property.title}</p>
           <p className="text-muted text-xs mt-1 flex items-center gap-1">
-            <MapPin size={12} />
+            <Icon name="location_on" size={12} />
             {property.location?.area}, {property.location?.city}
           </p>
         </div>
@@ -52,7 +53,7 @@ export default function PropertyCard({ property, isSaved, onToggleSave, layout =
     >
       <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl">
         <img
-          src={property.images?.[0] || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=200'}
+          src={property.images?.[0] || DEFAULT_PROPERTY_IMAGE}
           alt={property.title}
           className="h-full w-full object-cover"
         />
@@ -68,13 +69,13 @@ export default function PropertyCard({ property, isSaved, onToggleSave, layout =
               onClick={(e) => { e.preventDefault(); onToggleSave(property.id) }}
               className="shrink-0 p-1"
             >
-              <Heart size={18} className={isSaved ? 'fill-red-500 text-red-500' : 'text-muted'} />
+              <Icon name="favorite" size={18} filled={isSaved} className={isSaved ? 'text-red-500' : 'text-muted'} />
             </button>
           )}
         </div>
         <p className="font-semibold text-sm mt-1 line-clamp-1">{property.title}</p>
         <p className="text-muted text-xs mt-0.5 flex items-center gap-1">
-          <MapPin size={11} />
+          <Icon name="location_on" size={11} />
           {property.location?.area}
         </p>
         <p className="font-bold text-sm mt-1">{formatPrice(property.price)}</p>

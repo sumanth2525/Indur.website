@@ -68,7 +68,11 @@ public class LocalDataStore
                 Description = "Spacious 2BHK independent house with east-facing entrance.",
                 Price = 6800000, SellerId = "user-ravi", Sqft = 1200, Bedrooms = 2, Facing = "East", ReadyToMove = true, Views = 56,
                 Location = new PropertyLocation { Area = "Kanteshwar", City = "Nizamabad", Lat = 18.6725, Lng = 78.0941 },
-                Images = ["https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80"],
+                Images =
+                [
+                    "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800",
+                    "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=800",
+                ],
             },
             new()
             {
@@ -76,7 +80,45 @@ public class LocalDataStore
                 Description = "Clear-title residential plot ideal for building your dream home.",
                 Price = 4500000, SellerId = "user-priya", Sqft = 2400, Facing = "North", Views = 34,
                 Location = new PropertyLocation { Area = "Armoor Road", City = "Nizamabad", Lat = 18.685, Lng = 78.11 },
-                Images = ["https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80"],
+                Images =
+                [
+                    "https://images.pexels.com/photos/1118448/pexels-photo-1118448.jpeg?auto=compress&cs=tinysrgb&w=800",
+                ],
+            },
+            new()
+            {
+                Id = "prop-6", Type = "apartment", Title = "1BHK Starter Flat, Jakranpally",
+                Description = "Affordable 1BHK flat ideal for singles or young couples.",
+                Price = 3200000, SellerId = "user-priya", Sqft = 650, Bedrooms = 1, Facing = "North", ReadyToMove = true, Views = 28,
+                Location = new PropertyLocation { Area = "Jakranpally", City = "Nizamabad", Lat = 18.68, Lng = 78.10 },
+                Images =
+                [
+                    "https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg?auto=compress&cs=tinysrgb&w=800",
+                ],
+            },
+            new()
+            {
+                Id = "prop-3", Type = "apartment", Title = "3BHK Apartment, Bodhan Road",
+                Description = "Modern 3BHK apartment in a gated community.",
+                Price = 9200000, SellerId = "user-ravi", Sqft = 1850, Bedrooms = 3, Facing = "West", ReadyToMove = true, Views = 78,
+                Location = new PropertyLocation { Area = "Bodhan Road", City = "Nizamabad", Lat = 18.66, Lng = 78.08 },
+                Images =
+                [
+                    "https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg?auto=compress&cs=tinysrgb&w=800",
+                    "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=800",
+                ],
+            },
+            new()
+            {
+                Id = "prop-7", Type = "agriculture", Title = "Agriculture Land, 2 Acres — Bodhan",
+                Description = "Fertile agriculture land suitable for paddy and cotton. Borewell available.",
+                Price = 2400000, SellerId = "user-ravi", Sqft = 0, Bedrooms = 0, Facing = "East", Views = 45,
+                Location = new PropertyLocation { Area = "Bodhan", City = "Nizamabad", Lat = 18.66, Lng = 77.89 },
+                Images =
+                [
+                    "https://images.pexels.com/photos/956491/pexels-photo-956491.jpeg?auto=compress&cs=tinysrgb&w=800",
+                    "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&cs=tinysrgb&w=800",
+                ],
             },
         };
 

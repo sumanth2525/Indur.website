@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useAuth } from '../context/AuthContext'
 import { getPropertyById, toggleSaved } from '../data/seed'
-import PropertyCard from '../components/PropertyCard'
+import PropertyListItem from '../components/PropertyListItem'
+import BackgroundDecor from '../components/BackgroundDecor'
 
 export default function SavedProperties() {
   const { t } = useLanguage()
@@ -17,29 +17,40 @@ export default function SavedProperties() {
   }
 
   return (
-    <div className="px-4 lg:max-w-4xl lg:mx-auto lg:px-0">
-      <div className="flex items-center gap-3 mb-6 pt-2">
-        <button type="button" onClick={() => navigate(-1)} className="rounded-full p-1">
-          <ArrowLeft size={22} />
-        </button>
-        <h1 className="text-xl font-bold">{t('savedProperties')}</h1>
-      </div>
+    <div className="relative min-h-full bg-white lg:max-w-3xl lg:mx-auto">
+      <BackgroundDecor />
 
-      {saved.length === 0 ? (
-        <p className="text-muted text-center py-12">{t('noProperties')}</p>
-      ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
-          {saved.map((p) => (
-            <PropertyCard
-              key={p.id}
-              property={p}
-              isSaved
-              onToggleSave={handleToggleSave}
-              layout="grid"
-            />
-          ))}
-        </div>
-      )}
+      <div className="relative px-5 pt-6 lg:px-0 lg:pt-0">
+        <p className="text-[11px] font-medium tracking-[0.12em] text-muted-light uppercase">
+          {t('saved')}
+        </p>
+        <h1 className="text-[2rem] font-bold leading-tight tracking-tight mt-1">{t('savedProperties')}</h1>
+
+        {saved.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-24 text-center">
+            <p className="font-medium text-[15px]">{t('noProperties')}</p>
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              className="mt-4 rounded-full border border-border-strong px-5 py-2 text-sm font-medium hover:bg-surface"
+            >
+              {t('properties')}
+            </button>
+          </div>
+        ) : (
+          <div className="mt-4">
+            {saved.map((p, i) => (
+              <PropertyListItem
+                key={p.id}
+                property={p}
+                isSaved
+                onToggleSave={handleToggleSave}
+                showDivider={i < saved.length - 1}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
