@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.netlify/
+.vercel/
+
+backend/bin/
+backend/obj/
+backend/Data/
+
+.DS_Store
+*.user
+.vs/
