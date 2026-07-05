@@ -6,6 +6,8 @@ export const COLLECTIONS = {
   tickets: 'tickets',
   serviceCategories: 'serviceCategories',
   serviceProviders: 'serviceProviders',
+  otpRateLimits: 'otpRateLimits',
+  otpDeviceLimits: 'otpDeviceLimits',
 }
 
 function timestampToIso(value) {
@@ -60,7 +62,12 @@ export function docToListing(id, data) {
 export function docToConversation(id, data) {
   return {
     id,
-    propertyId: data.propertyId,
+    entityType: data.entityType || (data.serviceId ? 'service' : 'property'),
+    propertyId: data.propertyId || null,
+    serviceId: data.serviceId || null,
+    providerDocId: data.providerDocId || null,
+    serviceTitleKey: data.serviceTitleKey || null,
+    providerName: data.providerName || null,
     buyerId: data.buyerId,
     sellerId: data.sellerId,
     messages: (data.messages || []).map((m) => ({
@@ -107,6 +114,7 @@ export function docToServiceCategory(id, data) {
     titleKey: data.titleKey || '',
     subtitleKey: data.subtitleKey || '',
     color: data.color || 'teal',
+    icon: data.icon || '',
     sortOrder: data.sortOrder ?? 0,
     status: data.status || 'active',
     createdAt: timestampToIso(data.createdAt),
@@ -123,9 +131,15 @@ export function docToServiceProvider(id, data) {
     reviewCount: data.reviewCount ?? 0,
     experience: data.experience || '',
     availability: data.availability || '',
+    availableNow: Boolean(data.availableNow),
     distance: data.distance || '',
+    startingPrice: data.startingPrice ?? null,
+    priceUnitKey: data.priceUnitKey || 'priceUnitVisit',
+    verified: Boolean(data.verified),
+    areas: data.areas || [],
     aboutKey: data.aboutKey || '',
     servicesOfferedKeys: data.servicesOfferedKeys || [],
+    providerUserId: data.providerUserId || null,
     provider: {
       name: provider.name || '',
       locationKey: provider.locationKey || '',

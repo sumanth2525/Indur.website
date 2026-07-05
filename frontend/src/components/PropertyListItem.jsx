@@ -48,7 +48,7 @@ function thumbColor(id) {
 
 
 
-export default function PropertyListItem({ property, isSaved, onToggleSave, showDivider = true }) {
+export default function PropertyListItem({ property, showDivider = true }) {
 
   const { t } = useLanguage()
 
@@ -82,7 +82,7 @@ export default function PropertyListItem({ property, isSaved, onToggleSave, show
 
             <div className="h-14 w-14 overflow-hidden rounded-xl">
 
-              <img src={image} alt="" className="h-full w-full object-cover" />
+              <img src={image} alt="" className="h-full w-full object-cover" loading="lazy" />
 
             </div>
 
@@ -137,37 +137,7 @@ export default function PropertyListItem({ property, isSaved, onToggleSave, show
 
 
         <div className="flex shrink-0 flex-col items-center gap-2">
-
-          {onToggleSave && (
-
-            <button
-
-              type="button"
-
-              onClick={() => onToggleSave(property.id)}
-
-              className={`rounded-lg border p-1.5 transition-colors ${
-
-                isSaved
-
-                  ? 'border-text bg-text text-white'
-
-                  : 'border-border-strong bg-white text-muted hover:border-text hover:text-text'
-
-              }`}
-
-              aria-label={isSaved ? t('unsave') : t('save')}
-
-            >
-
-              <Icon name="bookmark" size={16} filled={isSaved} className={isSaved ? 'text-white' : ''} />
-
-            </button>
-
-          )}
-
           <ViewCountBadge count={property.views} />
-
         </div>
 
       </div>
@@ -180,7 +150,7 @@ export default function PropertyListItem({ property, isSaved, onToggleSave, show
 
 
 
-export function PropertyGridCard({ property, isSaved, onToggleSave }) {
+export function PropertyGridCard({ property }) {
 
   const { t } = useLanguage()
 
@@ -209,13 +179,10 @@ export function PropertyGridCard({ property, isSaved, onToggleSave }) {
         <div className="relative aspect-[4/3] overflow-hidden bg-surface">
 
           <img
-
             src={image || DEFAULT_PROPERTY_IMAGE}
-
             alt={property.title}
-
             className="h-full w-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
-
+            loading="lazy"
           />
 
         </div>
@@ -236,34 +203,8 @@ export function PropertyGridCard({ property, isSaved, onToggleSave }) {
 
       </Link>
 
-      <div className="px-4 pb-4 flex items-center justify-end gap-2">
-
-        {onToggleSave && (
-
-          <button
-
-            type="button"
-
-            onClick={() => onToggleSave(property.id)}
-
-            className={`rounded-lg border p-1.5 text-xs font-medium transition-colors ${
-
-              isSaved ? 'border-text bg-text text-white' : 'border-border-strong text-muted hover:border-text'
-
-            }`}
-
-            aria-label={isSaved ? t('unsave') : t('save')}
-
-          >
-
-            <Icon name="bookmark" size={14} filled={isSaved} />
-
-          </button>
-
-        )}
-
+      <div className="px-4 pb-4 flex items-center justify-end">
         <ViewCountBadge count={property.views} />
-
       </div>
 
     </div>

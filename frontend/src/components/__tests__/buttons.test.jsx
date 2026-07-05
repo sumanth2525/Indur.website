@@ -137,27 +137,10 @@ describe('Button interactions', () => {
   })
 
   describe('PropertyListItem', () => {
-    it('calls onToggleSave when bookmark button is clicked', async () => {
-      const user = userEvent.setup()
-      const onToggleSave = vi.fn()
-
-      renderWithProviders(
-        <PropertyListItem
-          property={sampleProperty}
-          isSaved={false}
-          onToggleSave={onToggleSave}
-        />,
-      )
-
-      await user.click(screen.getByRole('button', { name: translations.en.save }))
-      expect(onToggleSave).toHaveBeenCalledWith('prop-1')
-    })
-
     it('shows listing view count', () => {
       renderWithProviders(
         <PropertyListItem
           property={{ ...sampleProperty, views: 42 }}
-          isSaved={false}
         />,
       )
 
@@ -191,7 +174,7 @@ describe('Button interactions', () => {
       await user.click(screen.getByRole('button', { name: /raise a ticket|raise ticket/i }))
       expect(screen.getByPlaceholderText(/subject/i)).toBeInTheDocument()
 
-      await user.click(screen.getByRole('button', { name: /back/i }))
+      await user.click(screen.getByRole('button', { name: /cancel/i }))
       expect(screen.queryByPlaceholderText(/subject/i)).not.toBeInTheDocument()
     })
 

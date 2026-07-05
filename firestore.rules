@@ -29,9 +29,34 @@ service cloud.firestore {
     }
 
     function isValidPublicProfile(data) {
-      return data.keys().hasOnly(['name', 'photoURL', 'updatedAt'])
+      return data.keys().hasOnly(['name', 'photoURL', 'contactPhone', 'updatedAt'])
         && data.name is string && data.name.size() > 0 && data.name.size() <= 120
-        && (!('photoURL' in data) || data.photoURL is string && data.photoURL.size() <= 2048);
+        && (!('photoURL' in data) || data.photoURL is string && data.photoURL.size() <= 2048)
+        && (!('contactPhone' in data) || data.contactPhone is string && data.contactPhone.size() <= 20);
+    }
+
+    function isValidConversationCreate(data) {
+      return data.buyerId == request.auth.uid
+        && data.sellerId is string
+        && data.messages is list
+        && (
+          (data.entityType == 'property' && data.propertyId is string)
+          || (data.entityType == 'service'
+              && data.serviceId is string
+              && data.providerDocId is string)
+        );
+    }
+
+    function conversationFieldsUnchanged() {
+      return request.resource.data.buyerId == resource.data.buyerId
+        && request.resource.data.sellerId == resource.data.sellerId
+        && (
+          (resource.data.get('entityType', 'property') == 'service'
+            && request.resource.data.serviceId == resource.data.serviceId
+            && request.resource.data.providerDocId == resource.data.providerDocId)
+          || (resource.data.get('entityType', 'property') == 'property'
+            && request.resource.data.propertyId == resource.data.propertyId)
+        );
     }
 
     function isSaveCountAdjustOnly() {
@@ -103,16 +128,10 @@ service cloud.firestore {
 
     match /conversations/{conversationId} {
       allow read: if isConversationParticipant(resource.data);
-      allow create: if isSignedIn()
-        && request.resource.data.buyerId == request.auth.uid
-        && request.resource.data.sellerId is string
-        && request.resource.data.propertyId is string
-        && request.resource.data.messages is list;
+      allow create: if isSignedIn() && isValidConversationCreate(request.resource.data);
       allow update: if isConversationParticipant(resource.data)
         && isConversationParticipant(request.resource.data)
-        && request.resource.data.buyerId == resource.data.buyerId
-        && request.resource.data.sellerId == resource.data.sellerId
-        && request.resource.data.propertyId == resource.data.propertyId;
+        && conversationFieldsUnchanged();
       allow delete: if isConversationParticipant(resource.data);
     }
 
@@ -134,6 +153,46 @@ service cloud.firestore {
     match /serviceProviders/{providerId} {
       allow read: if isSignedIn() || resource.data.status == 'active';
       allow create, update, delete: if false;
+    }
+
+    function isValidOtpLimitWrite(data) {
+      return data.keys().hasAll(['countHour', 'hourBucket', 'countDay', 'dayBucket', 'lastSentAt'])
+        && data.countHour is int && data.countHour >= 1 && data.countHour <= 5
+        && data.countDay is int && data.countDay >= 1 && data.countDay <= 15
+        && data.hourBucket is int && data.hourBucket >= 0
+        && data.dayBucket is int && data.dayBucket >= 0
+        && data.lastSentAt is int && data.lastSentAt > 0;
+    }
+
+    function isValidOtpLimitUpdate() {
+      return isValidOtpLimitWrite(request.resource.data)
+        && request.resource.data.lastSentAt >= resource.data.lastSentAt
+        && (
+          request.resource.data.countHour == resource.data.countHour + 1
+          || (request.resource.data.hourBucket > resource.data.hourBucket && request.resource.data.countHour == 1)
+        )
+        && (
+          request.resource.data.countDay == resource.data.countDay + 1
+          || (request.resource.data.dayBucket > resource.data.dayBucket && request.resource.data.countDay == 1)
+        );
+    }
+
+    match /otpRateLimits/{phoneKey} {
+      allow read: if true;
+      allow create: if isValidOtpLimitWrite(request.resource.data)
+        && request.resource.data.countHour == 1
+        && request.resource.data.countDay == 1;
+      allow update: if isValidOtpLimitUpdate();
+      allow delete: if false;
+    }
+
+    match /otpDeviceLimits/{deviceId} {
+      allow read: if true;
+      allow create: if isValidOtpLimitWrite(request.resource.data)
+        && request.resource.data.countHour == 1
+        && request.resource.data.countDay == 1;
+      allow update: if isValidOtpLimitUpdate();
+      allow delete: if false;
     }
   }
 }

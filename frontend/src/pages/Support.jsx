@@ -34,9 +34,6 @@ export default function Support() {
   return (
     <div className="px-4 lg:max-w-2xl lg:mx-auto lg:px-0">
       <div className="flex items-center gap-3 mb-6 pt-2">
-        <button type="button" onClick={() => navigate(-1)} className="rounded-full p-1 hover:bg-surface lg:hidden">
-          <Icon name="arrow_back" size={22} />
-        </button>
         <h1 className="text-xl lg:text-2xl font-bold">{t('helpTitle')}</h1>
       </div>
 
@@ -91,7 +88,7 @@ export default function Support() {
               onClick={() => setShowTicket(false)}
               className="flex-1 rounded-full border border-border py-3 text-sm font-medium"
             >
-              {t('back')}
+              {t('cancel')}
             </button>
             <button
               type="button"

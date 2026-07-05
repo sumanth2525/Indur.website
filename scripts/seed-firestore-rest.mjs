@@ -169,12 +169,12 @@ await createDoc('tickets', demoTicketId, {
 })
 
 const serviceCategories = [
-  { id: 'packers-movers', titleKey: 'servicePackersMovers', subtitleKey: 'servicePackersMoversSub', color: 'teal', sortOrder: 0 },
-  { id: 'home-cleaning', titleKey: 'serviceHomeCleaning', subtitleKey: 'serviceHomeCleaningSub', color: 'blue', sortOrder: 1 },
-  { id: 'electrician', titleKey: 'serviceElectrician', subtitleKey: 'serviceElectricianSub', color: 'amber', sortOrder: 2 },
-  { id: 'plumber', titleKey: 'servicePlumber', subtitleKey: 'servicePlumberSub', color: 'teal', sortOrder: 3 },
-  { id: 'painting', titleKey: 'servicePainting', subtitleKey: 'servicePaintingSub', color: 'blue', sortOrder: 4 },
-  { id: 'legal-docs', titleKey: 'serviceLegalDocs', subtitleKey: 'serviceLegalDocsSub', color: 'amber', sortOrder: 5 },
+  { id: 'packers-movers', titleKey: 'servicePackersMovers', subtitleKey: 'servicePackersMoversSub', color: 'teal', icon: 'local_shipping', sortOrder: 0 },
+  { id: 'home-cleaning', titleKey: 'serviceHomeCleaning', subtitleKey: 'serviceHomeCleaningSub', color: 'blue', icon: 'cleaning_services', sortOrder: 1 },
+  { id: 'electrician', titleKey: 'serviceElectrician', subtitleKey: 'serviceElectricianSub', color: 'amber', icon: 'electrical_services', sortOrder: 2 },
+  { id: 'plumber', titleKey: 'servicePlumber', subtitleKey: 'servicePlumberSub', color: 'teal', icon: 'plumbing', sortOrder: 3 },
+  { id: 'painting', titleKey: 'servicePainting', subtitleKey: 'servicePaintingSub', color: 'blue', icon: 'format_paint', sortOrder: 4 },
+  { id: 'legal-docs', titleKey: 'serviceLegalDocs', subtitleKey: 'serviceLegalDocsSub', color: 'amber', icon: 'gavel', sortOrder: 5 },
 ]
 
 for (const category of serviceCategories) {
@@ -182,6 +182,7 @@ for (const category of serviceCategories) {
     titleKey: str(category.titleKey),
     subtitleKey: str(category.subtitleKey),
     color: str(category.color),
+    icon: str(category.icon),
     sortOrder: num(category.sortOrder),
     status: str('active'),
     createdAt: ts(now),

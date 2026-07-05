@@ -93,6 +93,14 @@ export async function getOrCreateConversation(buyerId, sellerId, propertyId) {
   return conversations.getOrCreateConversation(buyerId, sellerId, propertyId)
 }
 
+export async function getOrCreateServiceConversation(buyerId, provider, serviceTitleKey) {
+  return conversations.getOrCreateServiceConversation(buyerId, provider, serviceTitleKey)
+}
+
+export async function fetchServiceProviders(serviceId) {
+  return localServices.getActiveProvidersForService(serviceId)
+}
+
 export async function sendMessage(conversationId, senderId, text) {
   return conversations.addMessage(conversationId, senderId, text)
 }

@@ -30,8 +30,6 @@ import EditProfile from './pages/EditProfile'
 
 import MyListings from './pages/MyListings'
 
-import SavedProperties from './pages/SavedProperties'
-
 import Notifications from './pages/Notifications'
 import LegalPage from './pages/LegalPage'
 
@@ -152,7 +150,7 @@ export default function App() {
 
         <Route path="profile/listings" element={<AuthRequiredRoute><MyListings /></AuthRequiredRoute>} />
 
-        <Route path="profile/saved" element={<AuthRequiredRoute><SavedProperties /></AuthRequiredRoute>} />
+        <Route path="profile/saved" element={<Navigate to="/browse" replace />} />
 
         <Route path="profile/notifications" element={<AuthRequiredRoute><Notifications /></AuthRequiredRoute>} />
 

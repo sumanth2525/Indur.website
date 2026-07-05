@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useAuth } from '../context/AuthContext'
@@ -9,7 +8,6 @@ import { fetchSellerListings, removeListing, updateListingRecord } from '../serv
 export default function MyListings() {
   const { t } = useLanguage()
   const { user } = useAuth()
-  const navigate = useNavigate()
   const [listings, setListings] = useState([])
 
   const refresh = async () => {
@@ -33,10 +31,7 @@ export default function MyListings() {
 
   return (
     <div className="px-4 lg:max-w-3xl lg:mx-auto lg:px-0">
-      <div className="flex items-center gap-3 mb-6 pt-2">
-        <button type="button" onClick={() => navigate(-1)} className="rounded-full p-1">
-          <Icon name="arrow_back" size={22} />
-        </button>
+      <div className="mb-6 pt-2">
         <h1 className="text-xl font-bold">{t('myListings')}</h1>
       </div>
 

@@ -1,40 +1,28 @@
 import { Outlet, Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { useLanguage } from '../i18n/LanguageContext'
 import { BottomNav, Sidebar } from './layout/Navigation'
-import LanguageToggle from './LanguageToggle'
-import Icon from './Icon'
+import ScreenHeader from './ScreenHeader'
 
-const FULL_BLEED_ROUTES = ['/browse', '/services', '/profile/saved', '/profile']
+const CUSTOM_HEADER_PREFIXES = ['/messages/']
+
+function usesCustomHeader(pathname) {
+  return CUSTOM_HEADER_PREFIXES.some(
+    (prefix) => pathname.startsWith(prefix) && pathname.length > prefix.length,
+  )
+}
 
 export default function AppLayout() {
   const { user } = useAuth()
-  const { t } = useLanguage()
   const location = useLocation()
-  const isChat = location.pathname.startsWith('/messages/')
-  const isFullBleed = FULL_BLEED_ROUTES.some(
-    (r) => location.pathname === r || (r !== '/' && location.pathname.startsWith(r)),
-  )
+  const isChat = usesCustomHeader(location.pathname)
 
   if (!user) return <Navigate to="/" replace />
-
-  const showMobileHeader = !isFullBleed && !isChat
 
   return (
     <div className="flex min-h-dvh bg-white">
       <Sidebar />
       <div className="flex flex-1 flex-col min-w-0">
-        {showMobileHeader && (
-          <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-white px-5 py-3 lg:px-8">
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-text text-white">
-                <Icon name="home" size={20} filled />
-              </div>
-              <span className="font-bold tracking-tight text-sm">{t('appName')}</span>
-            </div>
-            <LanguageToggle />
-          </header>
-        )}
+        {!isChat && <ScreenHeader />}
 
         <main
           className={`flex-1 bg-white ${

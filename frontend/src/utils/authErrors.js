@@ -12,13 +12,20 @@ const AUTH_MESSAGES = {
   'auth/unauthorized-domain': 'This site is not authorized for sign-in yet.',
   'auth/operation-not-allowed': 'Phone sign-in is not enabled for this project yet.',
   'auth/billing-not-enabled': 'Phone OTP needs Firebase Blaze billing for real numbers. Use Google sign-in, or add a test number in Firebase Console.',
+  'auth/rate-limit-exceeded': 'Too many OTP requests. Please wait before trying again.',
+  'permission-denied': 'Could not verify OTP limits. Refresh and try again.',
   'auth/missing-app-credential': 'Phone verification failed. Refresh the page and try again.',
   'auth/invalid-app-credential': 'Phone verification failed. Refresh the page and try again.',
 }
 
 export function getAuthErrorMessage(err, fallback = 'Something went wrong. Please try again.') {
   const code = err?.code
+  if (code === 'auth/rate-limit-exceeded' && err?.message) return err.message
+  if (code === 'permission-denied') return AUTH_MESSAGES['permission-denied']
   if (code && AUTH_MESSAGES[code]) return AUTH_MESSAGES[code]
+  if (typeof err?.message === 'string' && err.message.includes('Missing or insufficient permissions')) {
+    return AUTH_MESSAGES['permission-denied']
+  }
   if (typeof err?.message === 'string' && err.message.startsWith('Firebase:')) {
     return fallback
   }

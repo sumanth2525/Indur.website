@@ -6,19 +6,18 @@ const propertyMobileItems = [
   { to: '/browse', icon: 'home', labelKey: 'home', end: true },
   { to: '/browse', icon: 'search', labelKey: 'search', end: true, hash: '#search' },
   { to: '/post', icon: 'add_circle', labelKey: 'post' },
-  { to: '/profile/saved', icon: 'bookmark', labelKey: 'saved' },
   { to: '/profile', icon: 'person', labelKey: 'profile', end: true },
 ]
 
 const servicesMobileItems = [
-  { to: '/services', icon: 'home', labelKey: 'home' },
+  { to: '/services', icon: 'home', labelKey: 'home', end: true },
   { to: '/messages', icon: 'chat', labelKey: 'messages' },
   { to: '/profile', icon: 'person', labelKey: 'profile', end: true },
 ]
 
 const desktopItems = [
   { to: '/browse', icon: 'dashboard', labelKey: 'dashboard', end: true },
-  { to: '/profile/saved', icon: 'bookmark', labelKey: 'saved' },
+  { to: '/services', icon: 'key', labelKey: 'localServices' },
   { to: '/messages', icon: 'chat', labelKey: 'messages' },
   { to: '/post', icon: 'add_circle', labelKey: 'postProperty' },
   { to: '/profile', icon: 'person', labelKey: 'profile' },
@@ -39,7 +38,7 @@ function MobileNavItem({ to, icon, labelKey, end, t, hash }) {
       to={to}
       end={end}
       className={({ isActive }) =>
-        `flex flex-col items-center gap-1 py-1 px-6 text-[11px] font-medium transition-colors ${
+        `flex flex-col items-center gap-1 py-1 px-6 text-[11px] font-medium transition-colors min-h-11 min-w-11 justify-center ${
           isActive ? 'text-text' : 'text-muted-light'
         }`
       }

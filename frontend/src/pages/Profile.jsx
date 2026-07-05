@@ -9,7 +9,6 @@ import ShareAppCard from '../components/ShareAppCard'
 const menuItems = [
   { key: 'editProfile', path: '/profile/edit' },
   { key: 'myListings', path: '/profile/listings' },
-  { key: 'savedProperties', path: '/profile/saved' },
   { key: 'notifications', path: '/profile/notifications' },
   { key: 'helpSupport', path: '/support' },
 ]
@@ -48,14 +47,10 @@ export default function Profile() {
             <p className="text-muted text-sm">{t('buyerSeller')} — {user?.location || 'Nizamabad'}</p>
           </div>
 
-          <div className="grid grid-cols-3 gap-3 mb-8 lg:mb-0">
+          <div className="grid grid-cols-2 gap-3 mb-8 lg:mb-0">
             <div className="rounded-2xl bg-surface border border-border p-4 text-center">
               <p className="text-2xl font-bold">{activeCount}</p>
               <p className="text-muted text-xs mt-0.5">{t('listings')}</p>
-            </div>
-            <div className="rounded-2xl bg-surface border border-border p-4 text-center">
-              <p className="text-2xl font-bold">{user?.saved?.length || 0}</p>
-              <p className="text-muted text-xs mt-0.5">{t('saved')}</p>
             </div>
             <div className="rounded-2xl bg-surface border border-border p-4 text-center">
               <p className="text-2xl font-bold">{totalViews}</p>

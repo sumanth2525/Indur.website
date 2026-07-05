@@ -237,15 +237,7 @@ export default function PostAd() {
     <div className="px-4 lg:max-w-2xl lg:mx-auto lg:px-0">
 
       <div className="flex items-center gap-3 mb-6 pt-2">
-
-        <button type="button" onClick={() => navigate(-1)} className="rounded-full p-1 hover:bg-surface">
-
-          <Icon name="arrow_back" size={22} />
-
-        </button>
-
         <h1 className="text-xl font-bold">{t('postProperty')}</h1>
-
       </div>
 
 

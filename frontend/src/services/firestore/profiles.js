@@ -9,11 +9,13 @@ import { db, firebaseEnabled } from '../../lib/firebase'
 import { COLLECTIONS, docToProfile, profileToFirestore } from './schema'
 
 function publicProfilePayload(profile) {
-  return {
+  const data = {
     name: profile.name || '',
     photoURL: profile.photoURL || '',
     updatedAt: serverTimestamp(),
   }
+  if (profile.phone) data.contactPhone = profile.phone
+  return data
 }
 
 async function syncPublicProfile(uid, profile) {
@@ -37,6 +39,7 @@ export async function getPublicProfile(uid) {
     id: uid,
     name: data.name || '',
     photoURL: data.photoURL || '',
+    contactPhone: data.contactPhone || '',
   }
 }
 

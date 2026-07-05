@@ -89,7 +89,39 @@ export async function getOrCreateConversation(buyerId, sellerId, propertyId) {
   }
 
   const ref = await addDoc(conversationsRef(), {
+    entityType: 'property',
     propertyId,
+    buyerId,
+    sellerId,
+    messages: [],
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  })
+  return getConversation(ref.id)
+}
+
+export async function getOrCreateServiceConversation(buyerId, provider, serviceTitleKey) {
+  const sellerId = provider.providerUserId || `svc_${provider.id}`
+  const existing = await getDocs(
+    query(
+      conversationsRef(),
+      where('entityType', '==', 'service'),
+      where('serviceId', '==', provider.serviceId),
+      where('providerDocId', '==', provider.id),
+      where('buyerId', '==', buyerId),
+    ),
+  )
+  if (!existing.empty) {
+    const d = existing.docs[0]
+    return docToConversation(d.id, d.data())
+  }
+
+  const ref = await addDoc(conversationsRef(), {
+    entityType: 'service',
+    serviceId: provider.serviceId,
+    providerDocId: provider.id,
+    serviceTitleKey,
+    providerName: provider.provider?.name || '',
     buyerId,
     sellerId,
     messages: [],

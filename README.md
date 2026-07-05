@@ -23,6 +23,16 @@ Phone login uses **Firebase Phone Auth**. Real SMS OTP requires the **Blaze (pay
 
 **Test without SMS (free):** In [Firebase Console → Authentication → Sign-in method → Phone](https://console.firebase.google.com/project/nizamabad-698d9/authentication/providers), use test numbers e.g. `+919505442525` → OTP `123456`.
 
+**OTP rate limits (Firestore-backed, protects Blaze SMS costs):**
+
+| Limit | Value |
+|---|---|
+| Per phone / hour | 3 |
+| Per phone / day | 8 |
+| Per device / hour | 5 |
+| Per device / day | 15 |
+| Cooldown between sends | 60 seconds |
+
 ```bash
 # Re-apply SMS region + auth domains if needed
 node scripts/configure-phone-auth.mjs

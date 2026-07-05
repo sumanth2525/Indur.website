@@ -26,10 +26,18 @@ export default function Messages() {
     async function loadMeta() {
       const entries = {}
       for (const conv of conversations) {
+        if (conv.entityType === 'service' || conv.serviceId) {
+          entries[conv.id] = {
+            other: { name: conv.providerName || t('localServices') },
+            prop: null,
+            serviceTitle: conv.serviceTitleKey ? t(conv.serviceTitleKey) : t('localServices'),
+          }
+          continue
+        }
         const otherId = conv.buyerId === user?.id ? conv.sellerId : conv.buyerId
         const [other, prop] = await Promise.all([
           fetchPublicProfileById(otherId),
-          fetchListingById(conv.propertyId),
+          conv.propertyId ? fetchListingById(conv.propertyId) : Promise.resolve(null),
         ])
         entries[conv.id] = { other, prop }
       }
@@ -37,14 +45,16 @@ export default function Messages() {
     }
     if (conversations.length) loadMeta()
     else setMeta({})
-  }, [conversations, user?.id])
+  }, [conversations, user?.id, t])
 
   const myConvs = useMemo(() => {
     return conversations.filter((c) => {
       if (!search) return true
       const { other, prop } = meta[c.id] || {}
       const q = search.toLowerCase()
-      return other?.name?.toLowerCase().includes(q) || prop?.title?.toLowerCase().includes(q)
+      return other?.name?.toLowerCase().includes(q)
+        || prop?.title?.toLowerCase().includes(q)
+        || meta[c.id]?.serviceTitle?.toLowerCase().includes(q)
     })
   }, [conversations, user, search, meta])
 
@@ -73,7 +83,7 @@ export default function Messages() {
         <div className="lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-4 flex flex-col gap-1">
           {myConvs.map((conv) => {
             const otherId = conv.buyerId === user?.id ? conv.sellerId : conv.buyerId
-            const { other, prop } = meta[conv.id] || {}
+            const { other, prop, serviceTitle } = meta[conv.id] || {}
             const lastMsg = conv.messages[conv.messages.length - 1]
             const unread = conv.messages.some(
               (m) => m.senderId !== user?.id && new Date(conv.updatedAt) > new Date(Date.now() - 3600000),
@@ -102,9 +112,11 @@ export default function Messages() {
                       </span>
                     )}
                   </div>
-                  {prop && (
+                  {serviceTitle ? (
+                    <p className="text-teal text-xs truncate">{serviceTitle}</p>
+                  ) : prop ? (
                     <p className="text-teal text-xs truncate">{prop.title}</p>
-                  )}
+                  ) : null}
                   {lastMsg && (
                     <p className="text-muted text-sm truncate mt-0.5">{lastMsg.text}</p>
                   )}

@@ -8,7 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest --pool=forks",
-    "test:run": "vitest run --pool=forks"
+    "test:run": "vitest run --pool=forks",
+    "test:otp": "vitest run --pool=forks src/services/__tests__/phoneOtp.test.jsx src/services/__tests__/otpRateLimit.test.js --reporter=verbose --silent=false",
+    "test:smoke": "vitest run --pool=forks src/__tests__/app.smoke.test.jsx"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.2",

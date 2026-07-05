@@ -94,6 +94,7 @@ export default function Login() {
       await requestPhoneOtp(phone)
       setOtpSent(true)
     } catch (err) {
+      if (import.meta.env.DEV) console.error('[OTP send failed]', err)
       setError(getAuthErrorMessage(err, 'Could not send OTP'))
     } finally {
       setSendingOtp(false)
@@ -130,7 +131,7 @@ export default function Login() {
           <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#137A63] text-white shadow-sm">
             <BrandMark size={22} />
           </div>
-          <span className="mt-3 text-xs font-bold tracking-[0.18em] text-[#137A63]">
+          <span className="mt-3 text-xs font-bold uppercase tracking-[0.18em] text-[#137A63]">
             {t('loginBrandName')}
           </span>
         </div>

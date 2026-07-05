@@ -1,5 +1,6 @@
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
 import { auth } from '../lib/firebase'
+import { assertOtpSendAllowed } from './firestore/otpRateLimit'
 
 let recaptchaVerifier = null
 let confirmationResult = null
@@ -24,6 +25,7 @@ function createRecaptcha() {
 
 export async function sendPhoneOtp(phone) {
   if (!auth) throw new Error('Firebase Auth is not configured')
+  await assertOtpSendAllowed(phone)
   const appVerifier = createRecaptcha()
   try {
     await appVerifier.render()

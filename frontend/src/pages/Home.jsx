@@ -3,13 +3,13 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useAuth } from '../context/AuthContext'
-import { browseLocationLabel, resolveBrowseLocation } from '../services/formatters'
-import { watchListings, toggleSavedListing, patchProfile, fetchListings } from '../services/dataApi'
+import useBrowseLocation from '../hooks/useBrowseLocation'
+import { browseLocationLabel } from '../services/formatters'
+import { watchListings, fetchListings } from '../services/dataApi'
 import { propertyMatchesLocation, divisionLocation, REVENUE_DIVISIONS } from '../data/nizamabadLocations'
 import { BROWSE_CATEGORIES, propertyMatchesCategory, heroTypeToCategory } from '../data/browseFilters'
 import PropertyListItem, { PropertyGridCard } from '../components/PropertyListItem'
 import BackgroundDecor from '../components/BackgroundDecor'
-import LanguageToggle from '../components/LanguageToggle'
 import LocationPicker from '../components/LocationPicker'
 import Import99AcresButton from '../components/Import99AcresButton'
 import PurposeToggle, { browsePurposeToListing } from '../components/PurposeToggle'
@@ -18,18 +18,14 @@ import WhatsAppContactButton from '../components/WhatsAppContactButton'
 
 export default function Home() {
   const { t } = useLanguage()
-  const { user, refreshUser, setUser, isGuest, isAuthenticated } = useAuth()
+  const { user, setUser, isGuest, isAuthenticated } = useAuth()
   const navigate = useNavigate()
   const routeLocation = useLocation()
-  const [location, setLocation] = useState(() => resolveBrowseLocation(user))
+  const { location, handleLocationChange } = useBrowseLocation(user, setUser)
   const [purpose, setPurpose] = useState('buy')
   const [category, setCategory] = useState('all')
   const [properties, setProperties] = useState([])
   const [search, setSearch] = useState('')
-
-  useEffect(() => {
-    setLocation(resolveBrowseLocation(user))
-  }, [user?.browseLocation, user?.location])
 
   useEffect(() => {
     return watchListings(setProperties, (err) => console.error('Listings sync failed', err))
@@ -66,25 +62,6 @@ export default function Home() {
     })
   }, [properties, category, location, search, purpose])
 
-  const handleLocationChange = async (loc) => {
-    setLocation(loc)
-    if (!user?.id) return
-    const updated = await patchProfile(user.id, {
-      browseLocation: loc,
-      location: loc.label,
-    })
-    if (updated) setUser(updated)
-  }
-
-  const handleToggleSave = async (propertyId) => {
-    if (isGuest) {
-      navigate('/login', { state: { from: '/browse' } })
-      return
-    }
-    await toggleSavedListing(user.id, propertyId)
-    refreshUser()
-  }
-
   const goToPost = () => {
     if (isGuest) {
       navigate('/login', { state: { from: '/post' } })
@@ -113,7 +90,6 @@ export default function Home() {
             </h1>
           </div>
           <div className="flex items-center gap-2 shrink-0">
-            <LanguageToggle className="!px-2.5 !py-1 !text-xs" />
             <button
               type="button"
               onClick={goToPost}
@@ -184,8 +160,6 @@ export default function Home() {
               <PropertyListItem
                 key={p.id}
                 property={p}
-                isSaved={isAuthenticated && user?.saved?.includes(p.id)}
-                onToggleSave={handleToggleSave}
                 showDivider={i < filtered.length - 1}
               />
             ))}
@@ -216,14 +190,10 @@ export default function Home() {
         </div>
 
         {isAuthenticated ? (
-          <div className="grid grid-cols-3 gap-4 mb-8">
+          <div className="grid grid-cols-2 gap-4 mb-8">
             <div className="rounded-2xl border border-border p-5">
               <p className="text-muted text-sm">{t('activeListings')}</p>
               <p className="text-3xl font-bold mt-1 tabular-nums">{myListings.length}</p>
-            </div>
-            <div className="rounded-2xl border border-border p-5">
-              <p className="text-muted text-sm">{t('saved')}</p>
-              <p className="text-3xl font-bold mt-1 tabular-nums">{user?.saved?.length || 0}</p>
             </div>
             <div className="rounded-2xl border border-border p-5">
               <p className="text-muted text-sm">{t('totalViews')}</p>
@@ -301,12 +271,7 @@ export default function Home() {
         ) : (
           <div className="grid grid-cols-2 xl:grid-cols-3 gap-5">
             {filtered.map((p) => (
-              <PropertyGridCard
-                key={p.id}
-                property={p}
-                isSaved={isAuthenticated && user?.saved?.includes(p.id)}
-                onToggleSave={handleToggleSave}
-              />
+              <PropertyGridCard key={p.id} property={p} />
             ))}
           </div>
         )}
