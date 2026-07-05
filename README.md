@@ -105,7 +105,7 @@ Live URLs: `https://nizamabad-698d9.web.app` and `https://nizamabad-698d9.fireba
 Seed local services collections (requires `gcloud auth login`):
 
 ```bash
-node scripts/seed-firestore-rest.mjs
+node scripts/seed-local-services.mjs
 ```
 
 **Before Google sign-in works:**
