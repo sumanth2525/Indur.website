@@ -11,6 +11,7 @@ function formatIndianPhone(phone) {
 }
 
 function getRecaptcha() {
+  if (!auth) throw new Error('Firebase Auth is not configured')
   if (!recaptchaVerifier) {
     recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
       size: 'invisible',
@@ -20,6 +21,7 @@ function getRecaptcha() {
 }
 
 export async function sendPhoneOtp(phone) {
+  if (!auth) throw new Error('Firebase Auth is not configured')
   confirmationResult = await signInWithPhoneNumber(auth, formatIndianPhone(phone), getRecaptcha())
   return confirmationResult
 }

@@ -26,6 +26,10 @@ export function mapFirebaseUser(fbUser) {
 }
 
 export function subscribeToAuthChanges(onUser) {
+  if (!auth) {
+    onUser(null)
+    return () => {}
+  }
   return onAuthStateChanged(auth, async (fbUser) => {
     if (!fbUser) {
       onUser(null)
@@ -43,6 +47,7 @@ export function subscribeToAuthChanges(onUser) {
 }
 
 export async function signInWithGoogle() {
+  if (!auth) throw new Error('Firebase Auth is not configured')
   const result = await signInWithPopup(auth, googleProvider)
   const defaults = mapFirebaseUser(result.user)
   const profile = await loadProfile(result.user.uid, defaults)
@@ -61,5 +66,6 @@ export async function completePhoneSignIn(fbUser, phoneLabel) {
 }
 
 export async function firebaseSignOut() {
+  if (!auth) return
   await signOut(auth)
 }
