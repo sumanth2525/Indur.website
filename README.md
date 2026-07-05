@@ -14,7 +14,19 @@ Buy/sell real estate platform for **Nizamabad** and nearby areas.
 
 All app data (profiles, listings, messages, support tickets) is stored in **Firebase** — no browser localStorage for data.
 
-Phone login uses **Firebase Phone Auth** (enable it in the Firebase Console under Authentication → Sign-in method).
+Phone login uses **Firebase Phone Auth**. Real SMS OTP requires the **Blaze (pay-as-you-go)** plan in Firebase Console → Usage and billing.
+
+**Already configured in this project:**
+- Phone provider enabled
+- India (`IN`) allowed for SMS
+- Authorized domains: localhost, `nizamabad-698d9.web.app`, `indur.site`, etc.
+
+**Test without SMS (free):** In [Firebase Console → Authentication → Sign-in method → Phone](https://console.firebase.google.com/project/nizamabad-698d9/authentication/providers), use test numbers e.g. `+919505442525` → OTP `123456`.
+
+```bash
+# Re-apply SMS region + auth domains if needed
+node scripts/configure-phone-auth.mjs
+```
 
 ## Screens
 

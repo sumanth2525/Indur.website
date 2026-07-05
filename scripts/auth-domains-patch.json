@@ -1,0 +1,10 @@
+{
+  "authorizedDomains": [
+    "localhost",
+    "nizamabad-698d9.firebaseapp.com",
+    "nizamabad-698d9.web.app",
+    "frontend.vercel.app",
+    "indur.site",
+    "www.indur.site"
+  ]
+}

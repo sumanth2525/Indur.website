@@ -10,7 +10,10 @@ const AUTH_MESSAGES = {
   'auth/network-request-failed': 'Network error. Check your connection.',
   'auth/internal-error': 'Sign-in is temporarily unavailable. Try again shortly.',
   'auth/unauthorized-domain': 'This site is not authorized for sign-in yet.',
-  'auth/operation-not-allowed': 'This sign-in method is not enabled.',
+  'auth/operation-not-allowed': 'Phone sign-in is not enabled for this project yet.',
+  'auth/billing-not-enabled': 'Phone OTP needs Firebase Blaze billing for real numbers. Use Google sign-in, or add a test number in Firebase Console.',
+  'auth/missing-app-credential': 'Phone verification failed. Refresh the page and try again.',
+  'auth/invalid-app-credential': 'Phone verification failed. Refresh the page and try again.',
 }
 
 export function getAuthErrorMessage(err, fallback = 'Something went wrong. Please try again.') {

@@ -10,20 +10,29 @@ function formatIndianPhone(phone) {
   return `+91${normalized}`
 }
 
-function getRecaptcha() {
+function createRecaptcha() {
   if (!auth) throw new Error('Firebase Auth is not configured')
-  if (!recaptchaVerifier) {
-    recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-      size: 'invisible',
-    })
+  if (recaptchaVerifier) {
+    recaptchaVerifier.clear()
+    recaptchaVerifier = null
   }
+  recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+    size: 'invisible',
+  })
   return recaptchaVerifier
 }
 
 export async function sendPhoneOtp(phone) {
   if (!auth) throw new Error('Firebase Auth is not configured')
-  confirmationResult = await signInWithPhoneNumber(auth, formatIndianPhone(phone), getRecaptcha())
-  return confirmationResult
+  const appVerifier = createRecaptcha()
+  try {
+    await appVerifier.render()
+    confirmationResult = await signInWithPhoneNumber(auth, formatIndianPhone(phone), appVerifier)
+    return confirmationResult
+  } catch (err) {
+    resetPhoneAuth()
+    throw err
+  }
 }
 
 export async function verifyPhoneOtp(code) {

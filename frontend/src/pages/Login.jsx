@@ -3,11 +3,13 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 
 import Icon from '../components/Icon'
 import LanguageToggle from '../components/LanguageToggle'
+import BackButton from '../components/BackButton'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import { isValidPhone } from '../utils/validation'
 import { sanitizeGuestPath, sanitizeInternalPath } from '../utils/safeRedirect'
 import { getAuthErrorMessage } from '../utils/authErrors'
+import { resetPhoneAuth } from '../services/phoneAuth'
 
 function GoogleIcon() {
   return (
@@ -116,6 +118,9 @@ export default function Login() {
 
   return (
     <div className="login-screen relative flex min-h-dvh flex-col">
+      <div className="absolute top-4 left-4 z-10">
+        <BackButton fallback="/browse" className="hover:bg-white/80" />
+      </div>
       <div className="absolute top-4 right-4 z-10">
         <LanguageToggle />
       </div>
@@ -172,6 +177,7 @@ export default function Login() {
               <button
                 type="button"
                 onClick={() => {
+                  resetPhoneAuth()
                   setShowPhoneAuth(false)
                   setOtpSent(false)
                   setPhone('')
