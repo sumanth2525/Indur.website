@@ -11,6 +11,8 @@ import AppLayout from './components/AppLayout'
 import Login from './pages/Login'
 
 import Home from './pages/Home'
+import LocalServices from './pages/LocalServices'
+import ServiceDetail from './pages/ServiceDetail'
 
 import PropertyDetail from './pages/PropertyDetail'
 
@@ -32,6 +34,13 @@ import SavedProperties from './pages/SavedProperties'
 
 import Notifications from './pages/Notifications'
 import LegalPage from './pages/LegalPage'
+
+
+
+function LoginRedirect() {
+  const location = useLocation()
+  return <Navigate to="/" replace state={location.state} />
+}
 
 
 
@@ -106,7 +115,7 @@ export default function App() {
 
       <Route path="/" element={<Login />} />
 
-      <Route path="/login" element={<Navigate to="/" replace />} />
+      <Route path="/login" element={<LoginRedirect />} />
 
       <Route path="/terms" element={<LegalPage type="terms" />} />
       <Route path="/privacy" element={<LegalPage type="privacy" />} />
@@ -126,6 +135,8 @@ export default function App() {
       >
 
         <Route path="browse" element={<Home />} />
+        <Route path="services" element={<LocalServices />} />
+        <Route path="services/:id" element={<ServiceDetail />} />
 
         <Route path="property/:id" element={<PropertyDetail />} />
 

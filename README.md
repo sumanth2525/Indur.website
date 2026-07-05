@@ -67,6 +67,8 @@ Connected to Firebase project **`nizamabad-698d9`**.
 | `conversations` | Auto-generated | Chat threads (buyer ↔ seller) |
 | `tickets` | Auto-generated | Support tickets |
 | `publicProfiles` | Firebase Auth `uid` | Public name/photo for sellers |
+| `serviceCategories` | Service slug (e.g. `plumber`) | Local service types (packers, electrician, etc.) |
+| `serviceProviders` | Auto-generated | Verified providers per service category |
 
 ### Storage paths
 
@@ -88,6 +90,23 @@ npx firebase-tools@13.35.1 apps:list WEB --project nizamabad-698d9
 ```
 
 Frontend config lives in `frontend/.env` (copy from `frontend/.env.example`). For Vercel, add the same `VITE_FIREBASE_*` variables in the project settings.
+
+### Firebase Hosting
+
+The site is configured for **Firebase Hosting** (classic). Build output is `frontend/dist`.
+
+```bash
+# Deploy hosting + Firestore rules/indexes
+npx -y firebase-tools@latest deploy --only hosting,firestore --project nizamabad-698d9
+```
+
+Live URLs: `https://nizamabad-698d9.web.app` and `https://nizamabad-698d9.firebaseapp.com`
+
+Seed local services collections (requires `gcloud auth login`):
+
+```bash
+node scripts/seed-firestore-rest.mjs
+```
 
 **Before Google sign-in works:**
 

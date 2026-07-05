@@ -187,6 +187,13 @@ body {
   }
 }
 
+.login-screen {
+  background:
+    radial-gradient(ellipse 90% 45% at 50% -5%, rgba(19, 122, 99, 0.12), transparent 55%),
+    radial-gradient(ellipse 70% 35% at 85% 0%, rgba(232, 168, 56, 0.1), transparent 50%),
+    #fff;
+}
+
 .material-symbols-outlined {
   font-family: "Material Symbols Outlined";
   font-weight: normal;

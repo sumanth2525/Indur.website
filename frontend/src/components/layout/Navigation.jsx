@@ -1,12 +1,18 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import Icon from '../Icon'
 import { useLanguage } from '../../i18n/LanguageContext'
 
-const mobileItems = [
+const propertyMobileItems = [
   { to: '/browse', icon: 'home', labelKey: 'home', end: true },
   { to: '/browse', icon: 'search', labelKey: 'search', end: true, hash: '#search' },
   { to: '/post', icon: 'add_circle', labelKey: 'post' },
   { to: '/profile/saved', icon: 'bookmark', labelKey: 'saved' },
+  { to: '/profile', icon: 'person', labelKey: 'profile', end: true },
+]
+
+const servicesMobileItems = [
+  { to: '/services', icon: 'home', labelKey: 'home' },
+  { to: '/messages', icon: 'chat', labelKey: 'messages' },
   { to: '/profile', icon: 'person', labelKey: 'profile', end: true },
 ]
 
@@ -69,11 +75,14 @@ function DesktopNavItem({ to, icon, labelKey, end, t }) {
 
 export function BottomNav() {
   const { t } = useLanguage()
+  const { pathname } = useLocation()
+  const mobileItems = pathname.startsWith('/services') ? servicesMobileItems : propertyMobileItems
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-white pb-[env(safe-area-inset-bottom)] lg:hidden">
       <div className="flex items-center justify-around py-2.5">
         {mobileItems.map((item) => (
-          <MobileNavItem key={item.to} {...item} t={t} />
+          <MobileNavItem key={`${item.to}-${item.labelKey}`} {...item} t={t} />
         ))}
       </div>
     </nav>

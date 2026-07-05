@@ -4,6 +4,8 @@ export const COLLECTIONS = {
   listings: 'listings',
   conversations: 'conversations',
   tickets: 'tickets',
+  serviceCategories: 'serviceCategories',
+  serviceProviders: 'serviceProviders',
 }
 
 function timestampToIso(value) {
@@ -97,6 +99,45 @@ export function profileToFirestore(profile) {
   }
   if (profile.browseLocation) data.browseLocation = profile.browseLocation
   return data
+}
+
+export function docToServiceCategory(id, data) {
+  return {
+    id,
+    titleKey: data.titleKey || '',
+    subtitleKey: data.subtitleKey || '',
+    color: data.color || 'teal',
+    sortOrder: data.sortOrder ?? 0,
+    status: data.status || 'active',
+    createdAt: timestampToIso(data.createdAt),
+    updatedAt: timestampToIso(data.updatedAt),
+  }
+}
+
+export function docToServiceProvider(id, data) {
+  const provider = data.provider || {}
+  return {
+    id,
+    serviceId: data.serviceId || '',
+    rating: data.rating ?? 0,
+    reviewCount: data.reviewCount ?? 0,
+    experience: data.experience || '',
+    availability: data.availability || '',
+    distance: data.distance || '',
+    aboutKey: data.aboutKey || '',
+    servicesOfferedKeys: data.servicesOfferedKeys || [],
+    provider: {
+      name: provider.name || '',
+      locationKey: provider.locationKey || '',
+      initial: provider.initial || '',
+      phone: provider.phone || '',
+      whatsapp: provider.whatsapp || provider.phone || '',
+    },
+    sortOrder: data.sortOrder ?? 0,
+    status: data.status || 'active',
+    createdAt: timestampToIso(data.createdAt),
+    updatedAt: timestampToIso(data.updatedAt),
+  }
 }
 
 export function listingToFirestore(listing) {

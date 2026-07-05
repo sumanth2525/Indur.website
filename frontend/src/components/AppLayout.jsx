@@ -5,7 +5,7 @@ import { BottomNav, Sidebar } from './layout/Navigation'
 import LanguageToggle from './LanguageToggle'
 import Icon from './Icon'
 
-const FULL_BLEED_ROUTES = ['/browse', '/profile/saved', '/profile']
+const FULL_BLEED_ROUTES = ['/browse', '/services', '/profile/saved', '/profile']
 
 export default function AppLayout() {
   const { user } = useAuth()
@@ -16,7 +16,7 @@ export default function AppLayout() {
     (r) => location.pathname === r || (r !== '/' && location.pathname.startsWith(r)),
   )
 
-  if (!user) return <Navigate to="/login" replace />
+  if (!user) return <Navigate to="/" replace />
 
   const showMobileHeader = !isFullBleed && !isChat
 

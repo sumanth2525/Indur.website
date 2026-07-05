@@ -2,6 +2,7 @@ import * as profiles from './firestore/profiles'
 import * as listings from './firestore/listings'
 import * as conversations from './firestore/conversations'
 import * as tickets from './firestore/tickets'
+import * as localServices from './firestore/localServices'
 import { uploadListingImages } from './firestore/images'
 
 export async function fetchListings() {
@@ -98,4 +99,16 @@ export async function sendMessage(conversationId, senderId, text) {
 
 export async function createSupportTicket(userId, subject, message) {
   return tickets.createTicket(userId, subject, message)
+}
+
+export async function fetchServiceCategories() {
+  return localServices.getActiveServiceCategories()
+}
+
+export async function fetchServiceCategory(id) {
+  return localServices.getServiceCategory(id)
+}
+
+export async function fetchPrimaryServiceProvider(serviceId) {
+  return localServices.getPrimaryProviderForService(serviceId)
 }

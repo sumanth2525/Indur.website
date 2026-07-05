@@ -1,6 +1,6 @@
 const DEFAULT_FALLBACK = '/browse'
 
-const GUEST_ALLOWED_PREFIXES = ['/browse', '/property/']
+const GUEST_ALLOWED_PREFIXES = ['/browse', '/property/', '/services']
 
 /**
  * Guests may only browse listings and view property details — not post, profile, etc.

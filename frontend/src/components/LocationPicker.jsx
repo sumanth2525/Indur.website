@@ -55,7 +55,7 @@ export default function LocationPicker({ value, onChange, className = '' }) {
         className={`inline-flex items-center gap-2 rounded-full border border-border-strong bg-white pl-3.5 pr-3 py-2.5 text-sm font-medium text-text hover:bg-surface transition-colors max-w-full ${className}`}
         aria-label={t('selectLocation')}
       >
-        <Icon name="location_on" size={18} className="text-teal shrink-0" />
+        <Icon name="location_on" size={18} className="text-[#137A63] shrink-0" />
         <span className="truncate">{loc.label}</span>
         <Icon name="expand_more" size={20} className="text-muted shrink-0" />
       </button>

@@ -125,5 +125,15 @@ service cloud.firestore {
         && request.resource.data.status == 'open';
       allow update, delete: if false;
     }
+
+    match /serviceCategories/{categoryId} {
+      allow read: if isSignedIn() || resource.data.status == 'active';
+      allow create, update, delete: if false;
+    }
+
+    match /serviceProviders/{providerId} {
+      allow read: if isSignedIn() || resource.data.status == 'active';
+      allow create, update, delete: if false;
+    }
   }
 }

@@ -219,22 +219,13 @@ describe('Button interactions', () => {
   })
 
   describe('Login', () => {
-    async function acceptAllConsents(user) {
-      const boxes = screen.getAllByRole('checkbox')
-      for (const box of boxes) {
-        await user.click(box)
-      }
-    }
-
-    it('blocks sign-in until all consents are accepted', () => {
+    it('shows Google and phone sign-in options', () => {
       const loginWithGoogle = vi.fn().mockResolvedValue({ id: 'user-1' })
 
       renderWithProviders(<Login />, { auth: { user: null, loginWithGoogle } })
 
-      expect(screen.getByRole('button', { name: /continue with google/i })).toBeDisabled()
-      expect(screen.getByRole('button', { name: /send otp/i })).toBeDisabled()
-      expect(screen.getByRole('button', { name: /continue as guest/i })).toBeDisabled()
-      expect(screen.getAllByRole('checkbox')).toHaveLength(2)
+      expect(screen.getByRole('button', { name: /continue with google/i })).toBeEnabled()
+      expect(screen.getByRole('button', { name: /continue with phone number/i })).toBeEnabled()
       expect(loginWithGoogle).not.toHaveBeenCalled()
     })
 
@@ -244,7 +235,6 @@ describe('Button interactions', () => {
 
       renderWithProviders(<Login />, { auth: { user: null, loginWithGoogle } })
 
-      await acceptAllConsents(user)
       await user.click(screen.getByRole('button', { name: /continue with google/i }))
       expect(loginWithGoogle).toHaveBeenCalledTimes(1)
     })
@@ -255,7 +245,7 @@ describe('Button interactions', () => {
 
       renderWithProviders(<Login />, { auth: { user: null, requestPhoneOtp } })
 
-      await acceptAllConsents(user)
+      await user.click(screen.getByRole('button', { name: /continue with phone number/i }))
       await user.type(screen.getByPlaceholderText(/phone/i), '9876543210')
       await user.click(screen.getByRole('button', { name: /send otp/i }))
       expect(requestPhoneOtp).toHaveBeenCalledWith('9876543210')
@@ -267,7 +257,6 @@ describe('Button interactions', () => {
 
       renderWithProviders(<Login />, { auth: { user: null, continueAsGuest } })
 
-      await acceptAllConsents(user)
       await user.click(screen.getByRole('button', { name: /continue as guest/i }))
       expect(continueAsGuest).toHaveBeenCalledTimes(1)
       expect(mockNavigate).toHaveBeenCalledWith('/browse', { replace: true, state: undefined })
@@ -283,7 +272,6 @@ describe('Button interactions', () => {
         auth: { user: null, continueAsGuest },
       })
 
-      await acceptAllConsents(user)
       await user.click(screen.getByRole('button', { name: /continue as guest/i }))
       expect(continueAsGuest).toHaveBeenCalledTimes(1)
       expect(mockNavigate).toHaveBeenCalledWith('/browse', { replace: true, state: undefined })

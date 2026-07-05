@@ -18,9 +18,11 @@ describe('sanitizeInternalPath', () => {
 })
 
 describe('sanitizeGuestPath', () => {
-  it('allows browse and property detail paths', () => {
+  it('allows browse, property detail, and services paths', () => {
     expect(sanitizeGuestPath('/browse')).toBe('/browse')
     expect(sanitizeGuestPath('/property/abc123')).toBe('/property/abc123')
+    expect(sanitizeGuestPath('/services')).toBe('/services')
+    expect(sanitizeGuestPath('/services/packers-movers')).toBe('/services/packers-movers')
     expect(sanitizeGuestPath('/browse?q=test')).toBe('/browse?q=test')
   })
 
